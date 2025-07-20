@@ -15,20 +15,29 @@
   </div>
 
   <div class="input-area">
-    <div class="card">
-      <div class="header">4 files changed</div>
-      <div class="file"><span class="file-icon">🟦</span> race-service.ts <span class="status">src/lib/data</span></div>
-      <div class="file"><span class="file-icon">🟪</span> race-service.test.ts <span class="status">src/lib/data</span></div>
-      <div class="file"><span class="file-icon">🟢</span> page.server.ts <span class="status">src/routes</span></div>
-      <div class="file"><span class="file-icon">🟠</span> page.svelte <span class="status">src/routes</span></div>
-
-      <div class="actions">
-        <button class="btn btn-keep">Keep</button>
-        <button class="btn btn-undo">Undo</button>
+    <div class="file-changes-card">
+      <div class="card-header">
+        <div class="file-card-header-title" tabindex="0" role="button" aria-label="Toggle file list visibility">
+          8 files changed
+        </div>
+        <div class="actions">
+          <button class="btn btn-reject">Reject all</button>
+          <button class="btn btn-accept">Accept all</button>
+        </div>
       </div>
-
-      <div class="add-context">＋ Add Context…</div>
+      <div class="file-list">
+        <div class="file"><span class="file-icon">🟦</span> race-service.ts <span class="status">src/lib/data</span></div>
+        <div class="file"><span class="file-icon">🟪</span> race-service.test.ts <span class="status">src/lib/data</span></div>
+        <div class="file"><span class="file-icon">🟢</span> page.server.ts <span class="status">src/routes</span></div>
+        <div class="file"><span class="file-icon">🟠</span> page.svelte <span class="status">src/routes</span></div>
+        <div class="file"><span class="file-icon">🟨</span> utils.ts <span class="status">src/lib</span></div>
+        <div class="file"><span class="file-icon">🟥</span> types.ts <span class="status">src/lib</span></div>
+        <div class="file"><span class="file-icon">🟫</span> config.ts <span class="status">src</span></div>
+        <div class="file"><span class="file-icon">🟩</span> constants.ts <span class="status">src/lib</span></div>
+      </div>
     </div>
+
+    <div class="add-context">＋ Add Context…</div>
 
     <div class="input-wrapper">
       <input type="text" placeholder="Type a message…">

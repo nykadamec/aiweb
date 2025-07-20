@@ -77,28 +77,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const input = document.querySelector('input[type="text"]');
     const sendButton = document.querySelector('.input-wrapper button');
 
-    keepButton.addEventListener('click', function() {
-      alert('Změny uloženy!');
-    });
+    if (keepButton) {
+      keepButton.addEventListener('click', function() {
+        alert('Změny uloženy!');
+      });
+    }
 
-    undoButton.addEventListener('click', function() {
-      alert('Změny vráceny!');
-    });
+    if (undoButton) {
+      undoButton.addEventListener('click', function() {
+        alert('Změny vráceny!');
+      });
+    }
 
-    sendButton.addEventListener('click', function() {
-      const message = input.value.trim();
-      if (message) {
-        alert('Zpráva odeslána: ' + message);
-        input.value = '';
-      }
-    });
+    if (sendButton) {
+      sendButton.addEventListener('click', function() {
+        const message = input.value.trim();
+        if (message) {
+          alert('Zpráva odeslána: ' + message);
+          input.value = '';
+        }
+      });
+    }
     
     // Odeslání zprávy při stisknutí Enter
-    input.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        sendButton.click();
-      }
-    });
+    if (input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendButton.click();
+        }
+      });
+    }
   }
   
   // Dropdown functionality
@@ -107,15 +115,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = event.currentTarget.closest('.dropdown');
     const isOpen = dropdown.classList.contains('open');
     
-    console.log('Toggle clicked, dropdown:', dropdown, 'isOpen:', isOpen);
+    console.log('🖱️ Toggle clicked, dropdown:', dropdown, 'isOpen:', isOpen);
     
     // Close all dropdowns first
-    document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    const openDropdowns = document.querySelectorAll('.dropdown.open');
+    console.log('🔒 Closing', openDropdowns.length, 'open dropdowns');
+    openDropdowns.forEach(d => d.classList.remove('open'));
     
     // Toggle current dropdown
     if (!isOpen) {
       dropdown.classList.add('open');
-      console.log('Opened dropdown');
+      console.log('✅ Opened dropdown');
+    } else {
+      console.log('🔒 Dropdown was already open, now closed');
     }
   };
 
@@ -153,40 +165,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize dropdowns
   const initializeDropdowns = () => {
-    console.log('Initializing dropdowns...');
+    console.log('🔧 Initializing dropdowns...');
     
     // Add event listeners to dropdown triggers
     const triggers = document.querySelectorAll('.dropdown-trigger');
-    console.log('Found triggers:', triggers.length);
+    console.log('📋 Found triggers:', triggers.length);
     
-    triggers.forEach(trigger => {
+    triggers.forEach((trigger, index) => {
       trigger.addEventListener('click', handleDropdownToggle);
-      console.log('Added click listener to trigger');
+      console.log(`✅ Added click listener to trigger ${index + 1}`);
     });
 
     // Add event listeners to dropdown items
     const items = document.querySelectorAll('.dropdown-item');
-    console.log('Found items:', items.length);
+    console.log('📋 Found items:', items.length);
     
-    items.forEach(item => {
+    items.forEach((item, index) => {
       item.addEventListener('click', handleDropdownItemClick);
+      console.log(`✅ Added click listener to item ${index + 1}: ${item.textContent}`);
     });
 
     // Add keyboard support
-    document.querySelectorAll('.dropdown').forEach(dropdown => {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    console.log('📋 Found dropdowns:', dropdowns.length);
+    
+    dropdowns.forEach((dropdown, index) => {
       dropdown.addEventListener('keydown', handleKeyDown);
+      console.log(`✅ Added keyboard support to dropdown ${index + 1}`);
     });
 
     // Close dropdowns when clicking outside
     document.addEventListener('click', handleClickOutside);
     
-    console.log('Dropdowns initialized');
+    console.log('🎉 Dropdowns initialized successfully');
   };
 
-  // Initialize when DOM is ready
+  // Initialize dropdowns always (not dependent on device compatibility)
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeDropdowns);
   } else {
     initializeDropdowns();
+  }
+
+  // Initialize file card toggle functionality
+  const initializeFileCardToggle = () => {
+    console.log('🔧 Initializing file card toggle...');
+    
+    const fileCardTitle = document.querySelector('.file-card-header-title');
+    const fileCard = document.querySelector('.file-changes-card');
+    
+    if (fileCardTitle && fileCard) {
+      console.log('✅ Found file card elements');
+      
+      const handleToggle = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        const isCollapsed = fileCard.classList.contains('collapsed');
+        console.log('🖱️ Toggle clicked, isCollapsed:', isCollapsed);
+        
+        if (isCollapsed) {
+          fileCard.classList.remove('collapsed');
+          console.log('📂 Expanded file card');
+        } else {
+          fileCard.classList.add('collapsed');
+          console.log('📁 Collapsed file card');
+        }
+      };
+
+      // Click event
+      fileCardTitle.addEventListener('click', handleToggle);
+      
+      // Keyboard support
+      fileCardTitle.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleToggle(event);
+        }
+      });
+      
+      console.log('✅ File card toggle initialized');
+    } else {
+      console.log('❌ File card elements not found');
+    }
+  };
+
+  // Initialize file card toggle
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeFileCardToggle);
+  } else {
+    initializeFileCardToggle();
   }
 });
